@@ -7,7 +7,7 @@ class RoomManager {
         this.rooms = new Map();
     }
     createRoom(user1, user2) {
-        const roomId = this.generate();
+        const roomId = this.generate().toString();
         this.rooms.set(roomId.toString(), {
             user1,
             user2,

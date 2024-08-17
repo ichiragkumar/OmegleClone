@@ -1,4 +1,5 @@
 import { User } from "./UserManager";
+import { Socket } from "socket.io";
 
 let GLOBAL_ROOM_ID = 1;
 export interface Room {
@@ -12,7 +13,7 @@ export class RoomManager {
     this.rooms = new Map<string, Room>();
   }
   createRoom(user1: User, user2: User) {
-    const roomId = this.generate();
+    const roomId = this.generate().toString();
     this.rooms.set(roomId.toString(), {
       user1,
       user2,
