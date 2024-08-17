@@ -1,5 +1,4 @@
-import { User } from "./Usermanager";
-import { Socket } from "socket.io";
+import { User } from "./UserManager";
 
 let GLOBAL_ROOM_ID = 1;
 export interface Room {
@@ -8,7 +7,7 @@ export interface Room {
 }
 export class RoomManager {
   private rooms: Map<String, Room>;
-  
+
   constructor() {
     this.rooms = new Map<string, Room>();
   }
@@ -25,16 +24,18 @@ export class RoomManager {
   }
 
   onOffer(roomId: string, sdp: string) {
-    const user2 = this.rooms.get(roomId)?.user1;
+    const user2 = this.rooms.get(roomId)?.user2;
     user2?.socket.emit("offer", {
       sdp,
+      roomId,
     });
   }
 
   onAnswer(roomId: string, sdp: string) {
-    const user1 = this.rooms.get(roomId)?.user2;
-    user1?.socket.emit("offer", {
+    const user1 = this.rooms.get(roomId)?.user1;
+    user1?.socket.emit("answer", {
       sdp,
+      roomId,
     });
   }
   generate() {

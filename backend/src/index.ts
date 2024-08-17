@@ -1,11 +1,14 @@
-import { Socket } from "socket.io";
+import { Socket, Server } from "socket.io";
 import http from "http";
-const express = require("express");
-const { Server } = require("socket.io");
+import express from "express";
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
 
 io.on("connection", (socket: Socket) => {
   console.log("a user connected");

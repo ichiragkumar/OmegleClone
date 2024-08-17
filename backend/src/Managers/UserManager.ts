@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import { RoomManager, Room } from "./RoomManager";
+import { RoomManager } from "./RoomManager";
 
 export interface User {
   socket: Socket;
@@ -22,7 +22,7 @@ export class UserManager {
     this.initHandlers(socket);
   }
   removeUser(socketId: string) {
-    this.users = this.users.filter((x) => x.socket.id === socketId);
+    this.users = this.users.filter((x) => x.socket.id !== socketId);
   }
 
   // this is to match the user and cannot do  [ chirag || chirag ]  at the same time
@@ -32,6 +32,7 @@ export class UserManager {
     const user2 = this.users.find((x) => x.socket.id === this.queue.pop());
     if (!user1 || !user2) return;
     const room = this.roomManager.createRoom(user1, user2);
+    this.clearQueue();
   }
 
   initHandlers(socket: Socket) {
